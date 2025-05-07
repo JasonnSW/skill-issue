@@ -1,14 +1,16 @@
+import { Info, MessageCircle, Clock } from "lucide-react";
+
 export const CardData = [
     {
-        icon: <Info className="h-6 w-6 text-white" />,
+        icon: Info,
         text: "86% pengguna internet mengaku tertipu oleh berita bohong",
     },
     {
-        icon: <MessageCircle className="h-6 w-6 text-white" />,
+        icon: MessageCircle,
         text: "Terdapat 800.000 Situs Penyebar Hoaks berdasarkan Kominfo",
     },
     {
-        icon: <Clock className="h-6 w-6 text-white" />,
+        icon: Clock,
         text: "Terdapat 63 Juta Orang Indonesia Menggunakan Internet",
     },
 ];
