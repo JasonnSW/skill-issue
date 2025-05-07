@@ -4,31 +4,16 @@ import { useWindowScroll } from "react-use";
 import { useEffect, useRef, useState } from "react";
 import logo from "../../assets/Group.svg";
 
-const navItems = ["Nexus", "Vault", "Prologue", "About", "Contact"];
+const navItems = ["Knowledge", "Services", "About us", "Contact us"];
 
 const NavBar = () => {
-    const [isAudioPlaying, setIsAudioPlaying] = useState(false);
     const [isIndicatorActive, setIsIndicatorActive] = useState(false);
 
-    const audioElementRef = useRef(null);
     const navContainerRef = useRef(null);
 
     const { y: currentScrollY } = useWindowScroll();
     const [isNavVisible, setIsNavVisible] = useState(true);
     const [lastScrollY, setLastScrollY] = useState(0);
-
-    const toggleAudioIndicator = () => {
-        setIsAudioPlaying((prev) => !prev);
-        setIsIndicatorActive((prev) => !prev);
-    };
-
-    useEffect(() => {
-        if (isAudioPlaying) {
-            audioElementRef.current.play();
-        } else {
-            audioElementRef.current.pause();
-        }
-    }, [isAudioPlaying]);
 
     useEffect(() => {
         if (currentScrollY === 0) {
@@ -62,7 +47,9 @@ const NavBar = () => {
                 <nav className="flex size-full items-center justify-around p-2">
                     <div className="flex items-center gap-7">
                         <img src={logo} alt="logo" className="w-10" />
-                        <h1 className="font-bold text-2xl text-white">CrediTion</h1>
+                        <h1 className="invisible sm:visible font-bold text-2xl text-white">
+                            CrediTion
+                        </h1>
                     </div>
 
                     <div className="flex h-full items-center">
@@ -77,29 +64,6 @@ const NavBar = () => {
                                 </a>
                             ))}
                         </div>
-
-                        <button
-                            onClick={toggleAudioIndicator}
-                            className="ml-10 flex items-center space-x-0.5"
-                        >
-                            <audio
-                                ref={audioElementRef}
-                                className="hidden"
-                                src="/audio/loop.mp3"
-                                loop
-                            />
-                            {[1, 2, 3, 4].map((bar) => (
-                                <div
-                                    key={bar}
-                                    className={clsx("indicator-line", {
-                                        active: isIndicatorActive,
-                                    })}
-                                    style={{
-                                        animationDelay: `${bar * 0.1}s`,
-                                    }}
-                                />
-                            ))}
-                        </button>
                     </div>
                 </nav>
             </header>
