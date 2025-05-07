@@ -29,14 +29,22 @@ Route::get('/test', function() {
     return response()->json(['message' => 'API is working!']);
 });
 
-Route::post('/api/verify-fact', [FactCheckerController::class, 'verifyFact']);
+Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+    return $request->user();
+});
 
-// Enable CORS for React frontend
-Route::options('/api/verify-fact', function () {
-    return response('', 200)
-        ->header('Access-Control-Allow-Origin', '*')
-        ->header('Access-Control-Allow-Methods', 'POST, OPTIONS')
-        ->header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+// API routes with CSRF protection disabled
+Route::group(['middleware' => ['api']], function () {
+    // Fact checking route
+    Route::post('/api/verify-fact', [FactCheckerController::class, 'verifyFact']);
+    
+    // Enable CORS for React frontend
+    Route::options('/api/verify-fact', function () {
+        return response('', 200)
+            ->header('Access-Control-Allow-Origin', '*')
+            ->header('Access-Control-Allow-Methods', 'POST, OPTIONS')
+            ->header('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With');
+    });
 });
 
 require __DIR__.'/auth.php';
