@@ -26,11 +26,14 @@ export default function Hoax() {
                         handleTabClick={handleTabClick}
                     />
 
-                    <div className="bg-[#1E1E1E] rounded-lg p-6 w-full max-w-3xl space-y-4">
-                        {activeTab === "lapor" && <LaporHoaxForm />}
-                        {activeTab === "anti" && <CekInformasi />}
-                        {activeTab === "web" && <WebTerpecaya />}
+                    <div className="animated-border rounded-2xl p-[2px] w-full max-w-3xl">
+                        <div className="bg-[#1E1E1E] rounded-2xl p-6 space-y-4">
+                            {activeTab === "lapor" && <LaporHoaxForm />}
+                            {activeTab === "anti" && <CekInformasi />}
+                            {activeTab === "web" && <WebTerpecaya />}
+                        </div>
                     </div>
+
                 </div>
             </div>
         </div>

@@ -36,6 +36,16 @@ export default {
                     300: "#edff66",
                 },
             },
+            keyframes: {
+                "border-spin": {
+                    "100%": {
+                        transform: "rotate(-360deg)",
+                    },
+                },
+            },
+            animation: {
+                "border-spin": "border-spin 7s linear infinite",
+            },
         },
     },
 

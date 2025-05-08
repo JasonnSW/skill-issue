@@ -106,6 +106,106 @@
     .contact-clip-path-2 {
         clip-path: polygon(29% 15%, 85% 30%, 50% 100%, 10% 64%);
     }
+    .card-wrapper {
+        @apply relative overflow-hidden rounded-2xl bg-gradient-to-b;
+    }
+
+    .card-wrapper::before {
+        background: conic-gradient(
+            rgba(244, 114, 182, 0.4) 0deg,
+            rgba(192, 132, 252, 0.4) 0deg,
+            transparent 100deg
+        );
+
+        @apply absolute left-[-25%] top-[-25%] h-[150%] w-[150%] animate-border-spin content-[''];
+    }
+
+    .card-content {
+        @apply absolute h-[calc(100%-2px)] w-[calc(100%-2px)] rounded-2xl bg-gradient-to-b from-slate-800 to-slate-900;
+    }
+    .animated-border {
+        @apply relative z-0 rounded-2xl overflow-hidden p-4;
+    }
+
+    .animated-border::before {
+        content: "";
+        position: absolute;
+        left: -100%;
+        top: -100%;
+        width: 300%;
+        height: 300%;
+        background: conic-gradient(from 0deg, #4b0082, #262626, #9b59b6);
+        animation: spin 5s linear infinite;
+        z-index: -2;
+    }
+
+    .animated-border::after {
+        content: "";
+        position: absolute;
+        inset: 2px;
+        background: #1e1e1e;
+        border-radius: 0.9rem;
+        z-index: -1;
+    }
+
+    .animated-border > div {
+        position: relative;
+        z-index: 1;
+    }
+
+    @keyframes spin {
+        0% {
+            transform: rotate(0deg);
+        }
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+
+    .rotating-border {
+        position: relative;
+        z-index: 0;
+    }
+
+    .rotating-border::before {
+        content: "";
+        position: absolute;
+        inset: -2px;
+        z-index: -1;
+        border-radius: 0.5rem; /* rounded-md */
+        background: conic-gradient(from 0deg, violet, purple, violet);
+        animation: spinBorder 4s linear infinite;
+    }
+
+    @keyframes spinBorder {
+        0% {
+            transform: rotate(0deg);
+        }
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+
+    @keyframes border-spin {
+        0% {
+            background-position: 0% 50%;
+        }
+        100% {
+            background-position: 100% 50%;
+        }
+    }
+
+    @keyframes borderPulse {
+        0% {
+            background-position: 0% 50%;
+        }
+        50% {
+            background-position: 100% 50%;
+        }
+        100% {
+            background-position: 0% 50%;
+        }
+    }
 }
 
 .indicator-line {
