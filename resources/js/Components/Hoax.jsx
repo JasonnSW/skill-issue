@@ -26,7 +26,7 @@ export default function Hoax() {
                         handleTabClick={handleTabClick}
                     />
 
-                    <div className="animated-border rounded-2xl p-[2px] w-full max-w-3xl">
+                    <div className="animated-border rounded-2xl p-[2px] w-full max-w-3xl custom-shadow">
                         <div className="bg-[#1E1E1E] rounded-2xl p-6 space-y-4">
                             {activeTab === "lapor" && <LaporHoaxForm />}
                             {activeTab === "anti" && <CekInformasi />}
