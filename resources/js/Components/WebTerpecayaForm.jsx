@@ -4,11 +4,11 @@ export default function WebTerpecaya() {
     return (
         <>
             <h2 className="text-xl font-bold text-white">
-                Cek Informasi Terpercaya
+                Cek Website Terpercaya
             </h2>
             <div className="space-y-4">
                 <label className="text-sm text-gray-300">
-                    Cek informasi terpercaya
+                    Cek website terpercaya
                 </label>
                 <input
                     type="text"

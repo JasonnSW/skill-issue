@@ -23,7 +23,7 @@ class FactCheckerController extends Controller
 
         try {
             // Get the API key from environment variables
-            $apiKey = 'AIzaSyAZU00yA-RHr5iREluFb3z4oh80XwYrdhs';
+            $apiKey = env('GEMINI_AI_KEY');;
 
             if (!$apiKey) {
                 Log::error('Gemini API key not found in environment variables');
@@ -35,7 +35,7 @@ class FactCheckerController extends Controller
 
             // Prepare the prompt for Gemini
             $prompt = "Anda adalah sistem pengecek fakta. Analisislah pernyataan berikut dan tentukan apakah pernyataan tersebut akurat secara faktual." .
-                "Jawab HANYA dengan 'true' jika pernyataan tersebut benar secara faktual, atau 'false' jika pernyataan tersebut salah atau menyesatkan: " .
+                "Jawab HANYA dengan 'true' jika pernyataan tersebut benar secara faktual, atau 'false' jika pernyataan tersebut salah atau menyesatkan: "  .
                 $validated['text'];
 
             // Make request to Gemini AI API
@@ -61,12 +61,12 @@ class FactCheckerController extends Controller
 
                 // Process the response to determine true/false
                 if (strtolower(trim($aiResponse)) === 'true' || strtolower(trim($aiResponse)) === 'false') {
-                    
+
                 }
                 $isTrue = strtolower(trim($aiResponse)) === 'true';
 
                 return response()->json([
-                    'message'=> $result,
+                    'message' => $result,
                     'isTrue' => $isTrue,
                 ]);
             } else {
