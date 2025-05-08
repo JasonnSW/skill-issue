@@ -39,7 +39,7 @@ class FactCheckerController extends Controller
                 $validated['text'];
 
             // Make request to Gemini AI API
-            $response = Http::post("https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key={$apiKey}", [
+            $response = Http::post("https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-pro-exp-03-25:generateContent?key={$apiKey}", [
                 'contents' => [
                     [
                         'parts' => [
@@ -60,6 +60,9 @@ class FactCheckerController extends Controller
                 $aiResponse = $result['candidates'][0]['content']['parts'][0]['text'] ?? '';
 
                 // Process the response to determine true/false
+                if (strtolower(trim($aiResponse)) === 'true' || strtolower(trim($aiResponse)) === 'false') {
+                    
+                }
                 $isTrue = strtolower(trim($aiResponse)) === 'true';
 
                 return response()->json([
