@@ -9,30 +9,29 @@ use Inertia\Inertia;
 
 class HoaxController extends Controller
 {
-    //
     public function index()
     {
-        $reports = Hoax::latest()->get();
-        return Inertia::render('Hoax/Index', [
-            'reports' => $reports,
+        $hoaxes = Hoax::all();
+        return Inertia::render('Service', [
+            'hoaxes' => $hoaxes
         ]);
     }
 
     public function create()
     {
-        return inertia::render('Hoax/Create');
+        return Inertia::render('LaporHoax'); // halaman form, jika ada
     }
 
     public function store(Request $request)
     {
         $request->validate([
-            'tema' => 'required',
+            'tema' => 'required|string|max:255',
             'tautan' => 'required|url',
-            'bukti_konten' => 'required|image|mimes:jpg,jpeg,png|max:2048',
-            'alasan' => 'required',
+            'bukti_konten' => 'nullable|image|max:2048',
+            'alasan' => 'required|string',
         ]);
 
-        $path = $request->file('bukti_konten')->store('bukti', 'public');
+        $path = $request->file('bukti_konten')?->store('bukti', 'public');
 
         Hoax::create([
             'tema' => $request->tema,
@@ -41,16 +40,7 @@ class HoaxController extends Controller
             'alasan' => $request->alasan,
         ]);
 
-        if ($request->expectsJson()) {
-            return response()->json([
-                'status' => 'success',
-                'message' => 'Hoax report created successfully!',
-            ]);
-        }
-
-        return redirect()->route('hoax.index')->with('success', 'Hoax report created successfully!');
+        // Tidak redirect agar alert bisa muncul di frontend (onSuccess Inertia)
+        return back()->with('success', 'Laporan hoax berhasil dikirim!');
     }
-
-
 }
-

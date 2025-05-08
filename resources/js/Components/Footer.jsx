@@ -20,47 +20,50 @@ export default function Footer() {
                         className="absolute left-[10%] top-1/2 -translate-y-1/2 w-32 invisible md:visible"
                     />
 
-                    <p className="text-[#E3872A] text-sm md:text-xl font-medium">
+                    <p className="text-[#E3872A] text-sm md:text-2xl font-medium">
                         Design and Development by Skill Issue
                     </p>
 
                     <div className="text-center">
-                        <p className="text-[#848484] text-sm mb-2">
+                        <p className="text-[#848484] text-base mb-2">
                             Our Social Media
                         </p>
 
-                        <div className="flex flex-col md:flex-row md:items-center md:justify-center gap-3 text-white text-lg">
-                            <div className="flex items-center gap-x-2">
-                                <FaInstagram title="credition" />
-                                <h1>credition_</h1>
+                        <div className="flex flex-col md:items-center md:justify-center gap-3 text-white text-lg">
+                            <div className="flex-center gap-x-2">
+                                <div className="flex items-center gap-x-2">
+                                    <FaInstagram title="credition" />
+                                    <h1>credition_</h1>
+                                </div>
+                                <div className="flex items-center gap-x-2">
+                                    <FaInstagram title="skill_issue" />
+                                    <h1>skill_issue</h1>
+                                </div>
                             </div>
-                            <div className="flex items-center gap-x-2">
-                                <FaInstagram title="skill_issue" />
-                                <h1>skill_issue</h1>
-                            </div>
-                            <div className="flex items-center gap-x-2">
-                                <FaLine title="than" />
-                                <h1>than</h1>
-                            </div>
-                            <div className="flex items-center gap-x-2">
-                                <FaLine title="sonjeaon" />
-                                <h1 className="text-xs sm:text-base font-normal">
-                                    sonjeaon
-                                </h1>
-                            </div>
-                            <div className="flex items-center gap-x-2">
-                                <FaLine title="sejose" />
-                                <h1>sejose</h1>
-                            </div>
-                            <div className="flex items-center gap-x-2">
-                                <FaLine title="vitco" />
-                                <h1 className="text-xs sm:text-base font-normal">
-                                    vitco
-                                </h1>
+                            <div className="flex-center gap-x-2">
+                                <div className="flex items-center gap-x-2">
+                                    <FaLine title="than" />
+                                    <h1>than</h1>
+                                </div>
+                                <div className="flex items-center gap-x-2">
+                                    <FaLine title="sonjeaon" />
+                                    <h1 className="text-xs sm:text-base font-normal">
+                                        sonjeaon
+                                    </h1>
+                                </div>
+                                <div className="flex items-center gap-x-2">
+                                    <FaLine title="sejose" />
+                                    <h1>sejose</h1>
+                                </div>
+                                <div className="flex items-center gap-x-2">
+                                    <FaLine title="vitco" />
+                                    <h1 className="text-xs sm:text-base font-normal">
+                                        vitco
+                                    </h1>
+                                </div>
                             </div>
                         </div>
 
-                        {/* Copyright */}
                         <div className="pt-4 text-center text-sm text-gray-500">
                             Copyright © CrediTion 2022 | All Rights Reserved
                         </div>
