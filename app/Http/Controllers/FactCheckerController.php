@@ -16,13 +16,11 @@ class FactCheckerController extends Controller
      */
     public function verifyFact(Request $request)
     {
-        // Validate the incoming request
         $validated = $request->validate([
             'text' => 'required|string|max:1000',
         ]);
 
         try {
-            // Get the API key from environment variables
             $apiKey = 'AIzaSyAZU00yA-RHr5iREluFb3z4oh80XwYrdhs';
 
             if (!$apiKey) {
@@ -33,13 +31,11 @@ class FactCheckerController extends Controller
                 ], 500);
             }
 
-            // Prepare the prompt for Gemini
             $prompt = "Anda adalah sistem pengecek fakta. Analisislah pernyataan berikut dan tentukan apakah pernyataan tersebut akurat secara faktual." .
                 "Jawab HANYA dengan 'true' jika pernyataan tersebut benar secara faktual, atau 'false' jika pernyataan tersebut salah atau menyesatkan: " .
                 $validated['text'];
 
-            // Make request to Gemini AI API
-            $response = Http::post("https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key={$apiKey}", [
+            $response = Http::post("https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-pro-preview-05-06:generateContent?key={$apiKey}", [
                 'contents' => [
                     [
                         'parts' => [
@@ -54,15 +50,19 @@ class FactCheckerController extends Controller
                 ]
             ]);
 
-            // Check if the request was successful
             if ($response->successful()) {
                 $result = $response->json();
                 $aiResponse = $result['candidates'][0]['content']['parts'][0]['text'] ?? '';
 
-                // Process the response to determine true/false
-                if (strtolower(trim($aiResponse)) === 'true' || strtolower(trim($aiResponse)) === 'false') {
-                    
+                if (isset($result['candidates'][0]['finishReason']) && $result['candidates'][0]['finishReason'] === 'MAX_TOKENS') {
+                    // Return a specific response for token limit reached
+                    return response()->json([
+                        'message' => 'The AI model reached its token limit. Please try a simpler statement.',
+                        'isTrue' => null,
+                        'tokenLimitReached' => true
+                    ], 200);
                 }
+
                 $isTrue = strtolower(trim($aiResponse)) === 'true';
 
                 return response()->json([
@@ -84,5 +84,4 @@ class FactCheckerController extends Controller
             ], 500);
         }
     }
-
 }

@@ -5,12 +5,14 @@ export default function FactChecker() {
   const [result, setResult] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [tokenLimitReached, setTokenLimitReached] = useState(false);
 
   const checkFact = async () => {
     if (!inputText.trim()) return;
     
     setLoading(true);
     setError(null);
+    setTokenLimitReached(false);
     
     try {
       const response = await fetch('http://127.0.0.1:8001/api/verify-fact', {
@@ -31,7 +33,13 @@ export default function FactChecker() {
       }
       
       const data = await response.json();
-      setResult(data.isTrue);
+      
+      if (data.tokenLimitReached) {
+        setTokenLimitReached(true);
+        setResult(null);
+      } else {
+        setResult(data.isTrue);
+      }
     } catch (err) {
       console.error('API Error:', err);
       setError(err.message);
@@ -73,7 +81,14 @@ export default function FactChecker() {
         </div>
       )}
       
-      {result !== null && !error && (
+      {tokenLimitReached && (
+        <div className="mt-4 p-4 bg-yellow-100 text-yellow-800 rounded-md">
+          <p className="font-bold">AI Overload</p>
+          <p>The AI model reached its token limit. Please try a simpler or shorter statement.</p>
+        </div>
+      )}
+      
+      {result !== null && !error && !tokenLimitReached && (
         <div className={`mt-4 p-4 rounded-md text-center ${result ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>
           <p className="font-bold text-lg">{result ? 'TRUE' : 'FALSE'}</p>
           <p className="text-sm">According to our AI verification</p>
