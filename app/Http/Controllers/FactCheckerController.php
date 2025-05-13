@@ -21,7 +21,7 @@ class FactCheckerController extends Controller
         ]);
 
         try {
-            $apiKey = 'AIzaSyAZU00yA-RHr5iREluFb3z4oh80XwYrdhs';
+            $apiKey = env('GEMINI_AI_KEY');
 
             if (!$apiKey) {
                 Log::error('Gemini API key not found in environment variables');
