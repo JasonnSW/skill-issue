@@ -56,19 +56,19 @@ export default function CekInformasi() {
       <div className="space-y-4">
         <label className="text-sm text-gray-300">
           {" "}
-          Cek informasi terpercaya
+          Masukkan informasi
         </label>
         <input
           type="text"
           value={inputText}
           onChange={(e) => setInputText(e.target.value)}
-          placeholder="Masukkan nama website"
+          placeholder="Contoh: 'Bumi itu bulat'"
           className="w-full rounded-md bg-[#2C2C2C] text-white px-4 py-2 border border-white"
         />
       </div>
 
       <button onClick={checkFact} disabled={loading || !inputText.trim()} className="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-2 rounded-md">
-        {loading ? 'Checking...' : 'Verify Fact'}
+        {loading ? 'Sedang berpikir... 🤔' : 'Kirim'}
       </button>
 
       {error && (

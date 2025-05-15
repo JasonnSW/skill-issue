@@ -8,12 +8,6 @@ use Illuminate\Support\Facades\Log;
 
 class FactCheckerController extends Controller
 {
-    /**
-     * Verify if a statement is true using Gemini AI
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\JsonResponse
-     */
     public function verifyFact(Request $request)
     {
         $validated = $request->validate([
@@ -35,7 +29,7 @@ class FactCheckerController extends Controller
                 "Jawab HANYA dengan 'true' jika pernyataan tersebut benar secara faktual, atau 'false' jika pernyataan tersebut salah atau menyesatkan: " .
                 $validated['text'];
 
-            $response = Http::post("https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-pro-preview-05-06:generateContent?key={$apiKey}", [
+            $response = Http::post("https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key={$apiKey}", [
                 'contents' => [
                     [
                         'parts' => [
@@ -55,7 +49,6 @@ class FactCheckerController extends Controller
                 $aiResponse = $result['candidates'][0]['content']['parts'][0]['text'] ?? '';
 
                 if (isset($result['candidates'][0]['finishReason']) && $result['candidates'][0]['finishReason'] === 'MAX_TOKENS') {
-                    // Return a specific response for token limit reached
                     return response()->json([
                         'message' => 'The AI model reached its token limit. Please try a simpler statement.',
                         'isTrue' => null,
