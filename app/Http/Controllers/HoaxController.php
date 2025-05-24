@@ -19,7 +19,7 @@ class HoaxController extends Controller
 
     public function create()
     {
-        return Inertia::render('LaporHoax'); // halaman form, jika ada
+        return Inertia::render('LaporHoax'); 
     }
 
     public function store(Request $request)
@@ -40,7 +40,6 @@ class HoaxController extends Controller
             'alasan' => $request->alasan,
         ]);
 
-        // Tidak redirect agar alert bisa muncul di frontend (onSuccess Inertia)
         return back()->with('success', 'Laporan hoax berhasil dikirim!');
     }
 }

@@ -8,22 +8,14 @@ use Illuminate\Support\Facades\Log;
 
 class FactCheckerController extends Controller
 {
-    /**
-     * Verify if a statement is true using Gemini AI
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\JsonResponse
-     */
     public function verifyFact(Request $request)
     {
-        // Validate the incoming request
         $validated = $request->validate([
             'text' => 'required|string|max:1000',
         ]);
 
         try {
-            // Get the API key from environment variables
-            $apiKey = env('GEMINI_AI_KEY');;
+            $apiKey = env('GEMINI_AI_KEY');
 
             if (!$apiKey) {
                 Log::error('Gemini API key not found in environment variables');
@@ -33,12 +25,10 @@ class FactCheckerController extends Controller
                 ], 500);
             }
 
-            // Prepare the prompt for Gemini
             $prompt = "Anda adalah sistem pengecek fakta. Analisislah pernyataan berikut dan tentukan apakah pernyataan tersebut akurat secara faktual." .
-                "Jawab HANYA dengan 'true' jika pernyataan tersebut benar secara faktual, atau 'false' jika pernyataan tersebut salah atau menyesatkan: "  .
+                "Jawab HANYA dengan 'true' jika pernyataan tersebut benar secara faktual, atau 'false' jika pernyataan tersebut salah atau menyesatkan: " .
                 $validated['text'];
 
-            // Make request to Gemini AI API
             $response = Http::post("https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key={$apiKey}", [
                 'contents' => [
                     [
@@ -54,19 +44,22 @@ class FactCheckerController extends Controller
                 ]
             ]);
 
-            // Check if the request was successful
             if ($response->successful()) {
                 $result = $response->json();
                 $aiResponse = $result['candidates'][0]['content']['parts'][0]['text'] ?? '';
 
-                // Process the response to determine true/false
-                if (strtolower(trim($aiResponse)) === 'true' || strtolower(trim($aiResponse)) === 'false') {
-
+                if (isset($result['candidates'][0]['finishReason']) && $result['candidates'][0]['finishReason'] === 'MAX_TOKENS') {
+                    return response()->json([
+                        'message' => 'The AI model reached its token limit. Please try a simpler statement.',
+                        'isTrue' => null,
+                        'tokenLimitReached' => true
+                    ], 200);
                 }
+
                 $isTrue = strtolower(trim($aiResponse)) === 'true';
 
                 return response()->json([
-                    'message' => $result,
+                    'message'=> $result,
                     'isTrue' => $isTrue,
                 ]);
             } else {
@@ -84,5 +77,4 @@ class FactCheckerController extends Controller
             ], 500);
         }
     }
-
 }

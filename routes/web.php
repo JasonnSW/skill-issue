@@ -3,6 +3,8 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\HoaxController;
 use App\Http\Controllers\FactCheckerController;
+use App\Http\Controllers\SafeBrowsingController;
+use App\Http\Controllers\TestSafeBrowsingController;
 use App\Models\Hoax;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
@@ -54,6 +56,13 @@ Route::options('/api/verify-fact', function () {
         ->header('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With');
 });
 
+Route::post('/api/check-website-safety', [SafeBrowsingController::class, 'checkWebsiteSafety']);
 
+Route::get('/check-hoax', function () {
+    return App\Models\Hoax::all();
+});
+
+Route::get('/api/test', [TestSafeBrowsingController::class, 'testApi']);
+Route::post('/api/test', [TestSafeBrowsingController::class, 'testApi']);
 
 require __DIR__ . '/auth.php';
