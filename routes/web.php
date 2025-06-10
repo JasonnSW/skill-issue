@@ -6,6 +6,7 @@ use App\Http\Controllers\FactCheckerController;
 use App\Http\Controllers\SafeBrowsingController;
 use App\Http\Controllers\TestSafeBrowsingController;
 use App\Models\Hoax;
+use App\Models\User;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Support\Facades\Route;
@@ -24,9 +25,15 @@ Route::get('/welcome', function () {
     ]);
 });
 
+Route::get('/dashboard', function () {
+    return Inertia::render('Dashboard', [
+        'auth' => [
+            'user' => auth()->user()
+        ]
+    ]);
+})->name('dashboard');
 
 Route::middleware('auth')->group(function () {
-    Route::get('/dashboard', fn() => Inertia::render('Dashboard'))->name('dashboard');
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
@@ -60,6 +67,10 @@ Route::post('/api/check-website-safety', [SafeBrowsingController::class, 'checkW
 
 Route::get('/check-hoax', function () {
     return App\Models\Hoax::all();
+});
+
+Route::get('/check-user', function () {
+    return App\Models\User::all();
 });
 
 Route::get('/api/test', [TestSafeBrowsingController::class, 'testApi']);
