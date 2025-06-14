@@ -17,6 +17,9 @@ export default function Login({ status, canResetPassword }) {
         e.preventDefault();
 
         post(route('login'), {
+            onSuccess: () => {
+                window.location.href = route('dashboard');
+            },
             onFinish: () => reset('password'),
         });
     };
@@ -90,7 +93,7 @@ export default function Login({ status, canResetPassword }) {
                         </Link>
                     )}
 
-                    <PrimaryButton className="ms-4" disabled={processing}>
+                    <PrimaryButton type="submit" className="ms-4" disabled={processing}>
                         Log in
                     </PrimaryButton>
                 </div>
